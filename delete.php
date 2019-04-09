@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PG-BDD</title>
+    <title>PG-BDD-create</title>
 </head>
 <body>
     <?php
@@ -15,25 +15,16 @@
         $connexion = new PDO("mysql:host=$serveur;dbname=test2", $login, $pass);
         $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $requete = $connexion->prepare("
-            INSERT INTO visiteurs(nom, prenom, email)
-            VALUES (:nom, :prenom, :email)
-        ");
+        $suppr = "
+            DELETE FROM visiteurs WHERE id=1;
+        ";
 
-        $requete->bindParam(':nom', $nom);
-        $requete->bindParam(':prenom', $prenom);
-        $requete->bindParam(':email', $email);
-
-        $nom = "Sami";
-        $prenom = "Nico";
-        $email = "sami@mail.com";
-
+        $requete = $connexion->prepare($suppr);
         $requete->execute();
-
-        echo 'Insertion réussie';
+        echo "Informations mises à jour";
     }
-    catch(PDOException $e) {
-        echo 'Echec : ' .$e->getMessage();
+    catch(PDOExeption $e) {
+        echo 'Erreur : ' . $e;
     }
     ?>
 </body>
