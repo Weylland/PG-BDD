@@ -12,20 +12,21 @@
         $login = "root";
         $pass = "";
         try {
-           $connexion = new PDO("mysql:host=$serveur;dbname=test2", $login, $pass); 
-           $connexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $connexion = new PDO("mysql:host=$serveur;dbname=test2", $login, $pass); 
+            $connexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-           $requete1 = $connexion->prepare("
-               SELECT prenom FROM visiteurs WHERE sexe='H' AND age<60 ORDER BY age LIMIT 0,2
-           ");
+            $sql1 = "
+                SELECT prenom FROM inscrits WHERE age<60 ORDER BY age LIMIT 0,2
+            ";
 
-           $requete1->execute();
+            $requete = $connexion->prepare($sql1);
+            $requete->execute();
 
-           $resultat = $requete1->fetchall();
+            $resultat = $requete->fetchall();
 
-           echo '<pre>';
-           print_r($resultat);
-           echo '</pre>';
+            echo '<pre>';
+            print_r($resultat);
+            echo '</pre>';
         }
         catch(PDOException $e){
             echo 'Echec de la connection : ' . $e->getMessage();
